@@ -1,13 +1,14 @@
 #
-# ElasticSearch Dockerfile
+# ElasticSearch Dockerfile + Head plugin
 #
-# https://github.com/dockerfile/elasticsearch
+# https://github.com/raphi/docker_elasticsearch_head
 #
-
+# Original file: https://registry.hub.docker.com/u/dockerfile/elasticsearch/dockerfile/raw
+#
 # Pull base image.
-FROM dockerfile/java:oracle-java7
+FROM dockerfile/java:oracle-java8
 
-ENV ES_PKG_NAME elasticsearch-1.4.1
+ENV ES_PKG_NAME elasticsearch-1.4.2
 
 # Install ElasticSearch.
 RUN \
@@ -18,13 +19,15 @@ RUN \
   mv /$ES_PKG_NAME /elasticsearch
 
 # Define mountable directories.
-VOLUME ["/data"]
+VOLUME ["/data_es"]
 
 # Mount elasticsearch.yml config
 ADD config/elasticsearch.yml /elasticsearch/config/elasticsearch.yml
 
 # Define working directory.
-WORKDIR /data
+WORKDIR /data_es
+
+RUN /elasticsearch/bin/plugin -install mobz/elasticsearch-head
 
 # Define default command.
 CMD ["/elasticsearch/bin/elasticsearch"]
