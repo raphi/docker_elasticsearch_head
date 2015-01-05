@@ -1,5 +1,4 @@
 path:
   data: /data_es/data
   logs: /data_es/log
-  plugins: /data_es/plugins
   work: /data_es/work
